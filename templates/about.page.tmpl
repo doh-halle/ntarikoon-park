@@ -1,0 +1,21 @@
+{{template "base" .}}
+
+{{define "content"}}
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <h1>Welcome to Go Mulang - This is our About page</h1>
+                <p>In publishing and Web Development - expecially full stack development, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final copy is available.</p>
+                <p> This is from the template: {{index .StringMap "Test"}}</p>
+
+                <p>
+                    {{if ne (index .StringMap "remote_ip") ""}}
+                        Your remote ip address is {{index .StringMap "remote_ip"}}
+                    {{else}}
+                        I don't know your ip address yet. Visit the <a href="/">Home page</a> so I can set it.
+                    {{end}}
+                </p>
+            </div>
+        </div>
+    </div>
+{{end}}
