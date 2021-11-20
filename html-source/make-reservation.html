@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/html-source/static/css/bootstrap.css">
+    <link rel="stylesheet" href="/html-source/static/css/custom.css">
+    <script src="/html-source/static/js/bootstrap.js"></script>
+
+    <title>Ntarikoon Park - Contact</title>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="index.html">Ntarikoon Park</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="index.html">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="about.html">About</a>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Appartments
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  
+                  <li><a class="dropdown-item" href="anufor-embassy.html">Anufor Embassy</a></li>
+                  <li><a class="dropdown-item" href="mulang-quarters.html">Mulang Quarters</a></li>
+                  <li><a class="dropdown-item" href="tawah-house.html">Tawah House</a></li>
+                  <li><a class="dropdown-item" href="menyoli-quarters.html">Menyoli Quarters</a></li>
+                  <!--<li><a class="dropdown-item" href="/houses/ngwa-embassy">Ngwa Embassy</a></li>-->
+                  <!--<li><a class="dropdown-item" href="/houses/atanga-house">Atanga House</a></li>-->
+                  <!--<li><a class="dropdown-item" href="/houses/ewalah-quarters">Ewalah Quarters</a></li>-->
+                  <li><hr class="dropdown-divider"></li>
+                  <li><a class="dropdown-item" href="anyere-john-suite.html">Anyere John Suite</a></li>
+                  <li><a class="dropdown-item" href="ayafor-residence.html">Ayafor Residence</a></li>
+                  <li><a class="dropdown-item" href="awamba-george-suite.html">Awamba George Suite</a></li>
+                </ul>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="reservation.html">Book Now</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="contact.html">Contact</a>
+              </li>
+            </ul>
+            <form class="d-flex">
+              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+              <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
+          </div>
+        </div>
+      </nav>
+      <div class="container">
+
+        <div class="row">
+              <div class="col">
+                  <h1 class="text-center">Make Reservation</h1>
+
+                  <form method="post" action="" class="needs-validation" novalidate>
+                      <div class="form-group mt-5">
+                          <label for="first_name">First Name:</label>
+                          <input type="text" name="first_name" id="first_name" class="form-control" required autocomplete="off">
+                      </div>
+                      <div class="form-group">
+                        <label for="last_name">Last Name:</label>
+                        <input type="text" name="last_name" id="last_name" class="form-control" required autocomplete="off">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email:</label>
+                        <input type="email" name="email" id="email" class="form-control" required autocomplete="off">
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone Number:</label>
+                        <input type="text" name="phone_number" id="phone_number" class="form-control" required autocomplete="off">
+                    </div>
+                    <hr>
+                    <input type="submit" class="btn btn-primary" class="form-control" value="Make Reservation">
+                  </form>
+            </div>
+
+          <div class="row myfooter">
+              <div class="col">Left</div>
+              <div class="col">Middle</div>
+              <div class="col">Right</div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            
+          </div>
+        </div>
+
+  <script>
+    // Example starter JavaScript for disabling form submissions if there are invalid fields
+(function () {
+  'use strict'
+
+  // Fetch all the forms we want to apply custom Bootstrap validation styles to
+  var forms = document.querySelectorAll('.needs-validation')
+
+  // Loop over them and prevent submission
+  Array.prototype.slice.call(forms)
+    .forEach(function (form) {
+      form.addEventListener('submit', function (event) {
+        if (!form.checkValidity()) {
+          event.preventDefault()
+          event.stopPropagation()
+        }
+
+        form.classList.add('was-validated')
+      }, false)
+    })
+})()
+  </script>
+</body>
+</html>

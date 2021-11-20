@@ -48,7 +48,7 @@ func main() {
 	//http.HandleFunc("/", handlers.Repo.Home)
 	//http.HandleFunc("/about", handlers.Repo.About)
 
-	fmt.Println(fmt.Printf("Starting Go Mulang Web Application on port %s", portNumber))
+	fmt.Println(fmt.Printf("Starting Ntarikon Park Web Application on port %s", portNumber))
 	//_ = http.ListenAndServe(portNumber, nil)
 
 	srv := &http.Server{

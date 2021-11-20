@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/html-source/static/css/bootstrap.css">
+    <link rel="stylesheet" href="/html-source/static/css/custom.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vanillajs-datepicker@1.1.4/dist/css/datepicker.min.css">
+    <link rel="stylesheet" type="text/css" href="https://unpkg.com/notie/dist/notie.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/vanillajs-datepicker@1.1.4/dist/js/datepicker-full.min.js"></script>
+    <script src="/html-source/static/js/bootstrap.js"></script>
+
+    <title>Ntarikoon Park - Search Availability</title>
+<style>
+  .datepicker {
+    z-index: 10000;
+  }
+</style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="index.html">Ntarikoon Park</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="index.html">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="about.html">About</a>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Appartments
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  
+                  <li><a class="dropdown-item" href="anufor-embassy.html">Anufor Embassy</a></li>
+                  <li><a class="dropdown-item" href="mulang-quarters.html">Mulang Quarters</a></li>
+                  <li><a class="dropdown-item" href="tawah-house.html">Tawah House</a></li>
+                  <li><a class="dropdown-item" href="menyoli-quarters.html">Menyoli Quarters</a></li>
+                  <!--<li><a class="dropdown-item" href="/houses/ngwa-embassy">Ngwa Embassy</a></li>-->
+                  <!--<li><a class="dropdown-item" href="/houses/atanga-house">Atanga House</a></li>-->
+                  <!--<li><a class="dropdown-item" href="/houses/ewalah-quarters">Ewalah Quarters</a></li>-->
+                  <li><hr class="dropdown-divider"></li>
+                  <li><a class="dropdown-item" href="anyere-john-suite.html">Anyere John Suite</a></li>
+                  <li><a class="dropdown-item" href="ayafor-residence.html">Ayafor Residence</a></li>
+                  <li><a class="dropdown-item" href="awamba-george-suite.html">Awamba George Suite</a></li>
+                </ul>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="reservation.html">Book Now</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="contact.html">Contact</a>
+              </li>
+            </ul>
+            <form class="d-flex">
+              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+              <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
+          </div>
+        </div>
+      </nav>
+      <div class="container">
+
+          <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-6">
+              <h1 class="mt-5">Search for Availability</h1>
+
+              <form action="/reservation.html" method="get" novalidate class="needs-validation">
+
+                <div class="row" id="reservation-dates">
+
+                  <div class="col">
+                    <div class="form-group">
+                      <label for="start_date" class="form-label">Start Date</label>
+                      <input required type="text" class="form-control" id="start" name="start" aria-describedby="startdateHelp" placeholder="Arrival"autocomplete="off">
+                    </div>
+                  </div>
+
+                  <div class="col">
+                    <div class="form-group">
+                      <label for="end_date" class="form-label">End Date</label>
+                      <input required type="text" class="form-control" id="end" name="end" aria-describedby="enddateHelp" placeholder="Departure" autocomplete="off">
+                    </div>
+                  </div>
+
+                </div>
+
+                <hr>
+
+                <button type="submit" class="btn btn-primary">Search for Availability</button>
+              </form>
+            </div>
+            <div class="col-md-3"></div>
+          </div>
+          <div class="ro">
+            <div class="col">
+              <h4>This is some text for you</h4>
+              <button id="colorButton">Click Me</button>
+            </div>
+          </div>
+          
+          <div class="row myfooter">
+              <div class="col">Left</div>
+              <div class="col">Middle</div>
+              <div class="col">Right</div>
+          </div>
+      </div>
+  <script>
+    let attention = Prompt();
+    // Example starter JavaScript for disabling form submissions if there are invalid fields
+(function () {
+  'use strict'
+
+  // Fetch all the forms we want to apply custom Bootstrap validation styles to
+  var forms = document.querySelectorAll('.needs-validation')
+
+  // Loop over them and prevent submission
+  Array.prototype.slice.call(forms)
+    .forEach(function (form) {
+      form.addEventListener('submit', function (event) {
+        if (!form.checkValidity()) {
+          event.preventDefault()
+          event.stopPropagation()
+        }
+
+        form.classList.add('was-validated')
+      }, false)
+    })
+})()
+
+document.getElementById("colorButton").addEventListener("click", function () {
+  //notify("This is my new message - thank you for visiting Ntarikoon Park", "error")
+  //notifyModal("title", "<em>Hello from Muea Mount Carmel</em>", "success", "Button Text Here")
+  let html = `
+  <form id="check-availability-form" action="" method="post" novalidate class="needs-validation">
+    <div class="row">
+      <div class="col">
+          <div class="row"  id="reservation-dates-modal">
+            <div class="col">
+              <input required class="form-control" type="text" name="start" id="start" placeholder="Arrival">
+            </div>
+            <div class="col">
+              <input required class="form-control" type="text" name="end" id="end" placeholder="Departure">
+            </div>
+          </div>
+      </div>
+    </div>
+  </form>
+  `
+  attention.custom({msg: html, title: 'Choose Your Dates'});
+})
+
+const elem = document.getElementById('reservation-dates');
+const rangepicker = new DateRangePicker(elem, {
+  format: "dd-mm-yyyy",
+}); 
+
+function notify(msg, msgType) {
+  notie.alert({
+  type: msgType,
+  text: msg,
+})
+}
+
+function notifyModal(title, text, icon, confirmationButtonText) {
+  swal.fire({
+    title: title,
+    html: text,
+    icon: icon,
+    confirmationButtonText: confirmationButtonText
+  })
+}
+
+function Prompt() {
+  let toast = function(c){
+    const {
+      msg = "",
+      icon = "success",
+      position = 'top-end',
+    } = c;
+    const Toast = Swal.mixin({
+      toast: true,
+      title: msg,
+      icon: icon,
+      showConfirmButton: false,
+      timer: 3000,
+      timerProgressBar: true,
+      didOpen: (toast) => {
+        toast.addEventListener('mouuseenter', Swal.stopTimer)
+        toast.addEventListener('mouseenter', Swal.resumeTimer)
+      }
+    })
+    Toast.fire({})
+  }
+
+  let success = function(c){
+    const {
+      msg = "",
+      title = "",
+      footer = "",
+    } = c;
+
+    Swal.fire({
+    icon: 'success',
+    title: title,
+    text: msg,
+    footer: footer
+  })
+  }
+
+  let error = function(c){
+    const {
+      msg = "",
+      title = "",
+      footer = "",
+    } = c;
+
+    Swal.fire({
+    icon: 'error',
+    title: title,
+    text: msg,
+    footer: footer
+  })
+  }
+
+  async function custom(c) {
+    const {
+      msg = "",
+      title = "",
+    } = c;
+    const { value: formValues } = await Swal.fire({
+      title: title,
+      html: msg,
+      focusConfirm: false,
+      showCancelButton: true,
+      willOpen: () => {
+          const elem = document.getElementById('reservation-dates-modal');
+          const rp = new DateRangePicker(elem, {
+            format: 'dd-mm-yyyy',
+            showOnFocus: false,
+          })
+      },
+      preConfirm: () => {
+        return [
+          document.getElementById('start').value,
+          document.getElementById('end').value
+        ]
+      }
+    })
+
+    if (formValues) {
+      Swal.fire(JSON.stringify(formValues))
+    }
+  }
+
+  return {
+    toast: toast,
+    success: success,
+    error: error,
+    custom: custom,
+  }
+}
+  </script>
+  <script src="https://unpkg.com/notie"></script>
+  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</body>
+</html>
