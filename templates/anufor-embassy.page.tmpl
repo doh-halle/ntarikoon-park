@@ -1,0 +1,81 @@
+{{template "base" .}}
+
+{{define "content"}}
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <img src="static/images/sdev.jpg" class="img-fluid img-thumbnail mx-auto d-block room-image" alt="Appartment Image">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <h1 class="text-center mt-4">Anufor Embassy</h1>
+            <p>In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final copy is available.</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col text-center">
+            <a id="check-availability-button" href="#" class="btn btn-success">Check Availability</a>
+        </div>
+    </div>
+</div>
+   
+{{end}}
+
+{{define "js"}}
+
+<script>
+document.getElementById("check-availability-button").addEventListener("click", function () {
+  //notify("This is my new message - thank you for visiting Ntarikoon Park", "error")
+  //notifyModal("title", "<em>Hello from Muea Mount Carmel</em>", "success", "Button Text Here")
+  let html = `
+  <form id="check-availability-form" action="" method="post" novalidate class="needs-validation">
+    <div class="row">
+      <div class="col">
+          <div class="row"  id="reservation-dates-modal">
+            <div class="col">
+              <input required class="form-control" type="text" name="start" id="start" placeholder="Arrival">
+            </div>
+            <div class="col">
+              <input required class="form-control" type="text" name="end" id="end" placeholder="Departure">
+            </div>
+          </div>
+      </div>
+    </div>
+  </form>
+  `
+  attention.custom({
+    msg: html, 
+    title: 'Choose Your Dates',
+
+    willOpen: () => {
+          const elem = document.getElementById('reservation-dates-modal');
+          const rp = new DateRangePicker(elem, {
+            format: 'dd-mm-yyyy',
+            showOnFocus: false,
+          })
+      },
+
+    callback: function(result) {
+      console.log("Laura called...");
+
+      let form = document.getElementById("check-availability-form");
+      let formData = new FormData(form);
+      formData.append("csrf_token", "{{.CSRFToken}}");
+
+      fetch('/search-availability-json', {
+        method: "post",
+        body: formData,
+      })
+        .then(response => response.json())
+        .then(data => {
+          console.log(data);
+          console.log(data.ok);
+          console.log(data.message);
+        })
+    }
+  });
+})
+</script>
+
+{{end}}

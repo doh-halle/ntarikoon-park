@@ -6,9 +6,9 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/doh-halle/ntarikoon-park/pkg/config"
-	"github.com/doh-halle/ntarikoon-park/pkg/handlers"
-	"github.com/doh-halle/ntarikoon-park/pkg/render"
+	"github.com/doh-halle/ntarikoon-park/internal/config"
+	"github.com/doh-halle/ntarikoon-park/internal/handlers"
+	"github.com/doh-halle/ntarikoon-park/internal/render"
 
 	"github.com/alexedwards/scs/v2"
 )
