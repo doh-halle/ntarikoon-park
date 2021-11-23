@@ -7,6 +7,7 @@ import (
 	"net/http"
 
 	"github.com/doh-halle/ntarikoon-park/internal/config"
+	"github.com/doh-halle/ntarikoon-park/internal/forms"
 	"github.com/doh-halle/ntarikoon-park/internal/models"
 	"github.com/doh-halle/ntarikoon-park/internal/render"
 )
@@ -58,7 +59,47 @@ func (m *Repository) About(w http.ResponseWriter, r *http.Request) {
 
 //Reservation renders the make a reservation page and display form
 func (m *Repository) Reservation(w http.ResponseWriter, r *http.Request) {
-	render.RenderTemplate(w, r, "make-reservation.page.tmpl", &models.TemplateData{})
+	var emptyReservation models.Reservation
+	data := make(map[string]interface{})
+	data["reservation"] = emptyReservation
+
+	render.RenderTemplate(w, r, "make-reservation.page.tmpl", &models.TemplateData{
+		Form: forms.New(nil),
+		Data: data,
+	})
+}
+
+//PostReservation handles the posting of a reservation form
+func (m *Repository) PostReservation(w http.ResponseWriter, r *http.Request) {
+	err := r.ParseForm()
+	if err != nil {
+		log.Println(err)
+	}
+
+	reservation := models.Reservation{
+		FirstName:   r.Form.Get("first_name"),
+		LastName:    r.Form.Get("last_name"),
+		Email:       r.Form.Get("email"),
+		PhoneNumber: r.Form.Get("phone_number"),
+	}
+
+	form := forms.New(r.PostForm)
+
+	//form.Has("first_name", r)
+	form.Required("first_name", "last_name", "email", "phone_number")
+	form.MinLength("first_name", 3, r)
+
+	if !form.Valid() {
+		data := make(map[string]interface{})
+		data["reservation"] = reservation
+
+		render.RenderTemplate(w, r, "make-reservation.page.tmpl", &models.TemplateData{
+			Form: form,
+			Data: data,
+		})
+		return
+	}
+
 }
 
 //Contact renders the contact page
