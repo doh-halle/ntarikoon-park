@@ -1,0 +1,12 @@
+mode: set
+github.com/doh-halle/ntarikoon-park/cmd/web/main.go:24.13,26.16 2 0
+github.com/doh-halle/ntarikoon-park/cmd/web/main.go:30.2,39.16 4 0
+github.com/doh-halle/ntarikoon-park/cmd/web/main.go:26.16,28.3 1 0
+github.com/doh-halle/ntarikoon-park/cmd/web/main.go:42.18,58.16 10 1
+github.com/doh-halle/ntarikoon-park/cmd/web/main.go:63.2,71.12 6 1
+github.com/doh-halle/ntarikoon-park/cmd/web/main.go:58.16,61.3 2 0
+github.com/doh-halle/ntarikoon-park/cmd/web/middleware.go:10.53,11.71 1 0
+github.com/doh-halle/ntarikoon-park/cmd/web/middleware.go:11.71,14.3 2 0
+github.com/doh-halle/ntarikoon-park/cmd/web/middleware.go:17.45,28.2 3 1
+github.com/doh-halle/ntarikoon-park/cmd/web/middleware.go:30.50,32.2 1 1
+github.com/doh-halle/ntarikoon-park/cmd/web/routes.go:13.49,43.2 21 1
