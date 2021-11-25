@@ -2,12 +2,13 @@ package handlers
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
-	"log"
 	"net/http"
 
 	"github.com/doh-halle/ntarikoon-park/internal/config"
 	"github.com/doh-halle/ntarikoon-park/internal/forms"
+	"github.com/doh-halle/ntarikoon-park/internal/helpers"
 	"github.com/doh-halle/ntarikoon-park/internal/models"
 	"github.com/doh-halle/ntarikoon-park/internal/render"
 )
@@ -34,26 +35,14 @@ func NewHandlers(r *Repository) {
 
 //Home is the home page handler
 func (m *Repository) Home(w http.ResponseWriter, r *http.Request) {
-	remoteIP := r.RemoteAddr
-	m.App.Session.Put(r.Context(), "remote_ip", remoteIP)
-
 	render.RenderTemplate(w, r, "home.page.tmpl", &models.TemplateData{})
 }
 
 //About is the about page handler
 func (m *Repository) About(w http.ResponseWriter, r *http.Request) {
-	//Perform some business logic
-	stringMap := make(map[string]string)
-	stringMap["Test"] = "Hello from Muea."
-
-	remoteIP := m.App.Session.GetString(r.Context(), "remote_ip")
-
-	stringMap["remote_ip"] = remoteIP
 
 	// send the data to the template
-	render.RenderTemplate(w, r, "about.page.tmpl", &models.TemplateData{
-		StringMap: stringMap,
-	})
+	render.RenderTemplate(w, r, "about.page.tmpl", &models.TemplateData{})
 
 }
 
@@ -72,8 +61,10 @@ func (m *Repository) Reservation(w http.ResponseWriter, r *http.Request) {
 //PostReservation handles the posting of a reservation form
 func (m *Repository) PostReservation(w http.ResponseWriter, r *http.Request) {
 	err := r.ParseForm()
+	err = errors.New("this is an error message")
 	if err != nil {
-		log.Println(err)
+		helpers.ServerError(w, err)
+		return
 	}
 
 	reservation := models.Reservation{
@@ -87,7 +78,7 @@ func (m *Repository) PostReservation(w http.ResponseWriter, r *http.Request) {
 
 	//form.Has("first_name", r)
 	form.Required("first_name", "last_name", "email", "phone_number")
-	form.MinLength("first_name", 3, r)
+	form.MinLength("first_name", 3)
 	form.IsEmail("email")
 
 	if !form.Valid() {
@@ -138,7 +129,8 @@ func (m *Repository) AvailabilityJSON(w http.ResponseWriter, r *http.Request) {
 
 	out, err := json.MarshalIndent(resp, "", "    ")
 	if err != nil {
-		log.Println(err)
+		helpers.ServerError(w, err)
+		return
 	}
 	w.Header().Set("Content-Type", "application/json")
 	w.Write(out)
@@ -172,7 +164,7 @@ func (m *Repository) Ayafor(w http.ResponseWriter, r *http.Request) {
 func (m *Repository) ReservationSummary(w http.ResponseWriter, r *http.Request) {
 	reservation, ok := m.App.Session.Get(r.Context(), "reservation").(models.Reservation)
 	if !ok {
-		log.Println("Cannot get Item from session")
+		m.App.ErrorLog.Println("Cannot get Item from session")
 		m.App.Session.Put(r.Context(), "error", "Can't get reservation from Session")
 		http.Redirect(w, r, "/", http.StatusTemporaryRedirect)
 		return

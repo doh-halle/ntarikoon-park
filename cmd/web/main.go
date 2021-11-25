@@ -5,10 +5,12 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 	"time"
 
 	"github.com/doh-halle/ntarikoon-park/internal/config"
 	"github.com/doh-halle/ntarikoon-park/internal/handlers"
+	"github.com/doh-halle/ntarikoon-park/internal/helpers"
 	"github.com/doh-halle/ntarikoon-park/internal/models"
 	"github.com/doh-halle/ntarikoon-park/internal/render"
 
@@ -19,6 +21,8 @@ const portNumber = ":9000"
 
 var app config.AppConfig
 var session *scs.SessionManager
+var infoLog *log.Logger
+var errorLog *log.Logger
 
 //Main is the main application function
 func main() {
@@ -46,6 +50,12 @@ func run() error {
 	//Change this to true when in production
 	app.InProduction = false
 
+	infoLog = log.New(os.Stdout, "INFO\t", log.Ldate|log.Ltime)
+	app.InfoLog = infoLog
+
+	errorLog = log.New(os.Stdout, "ERROR\t", log.Ldate|log.Ltime|log.Lshortfile)
+	app.ErrorLog = errorLog
+
 	session = scs.New()
 	session.Lifetime = 24 * time.Hour
 	session.Cookie.Persist = true
@@ -65,8 +75,8 @@ func run() error {
 
 	repo := handlers.NewRepo(&app)
 	handlers.NewHandlers(repo)
-
 	render.NewTemplates(&app)
+	helpers.NewHelpers(&app)
 
 	return nil
 }
