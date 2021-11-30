@@ -9,6 +9,7 @@ import (
 	"time"
 
 	"github.com/doh-halle/ntarikoon-park/internal/config"
+	"github.com/doh-halle/ntarikoon-park/internal/driver"
 	"github.com/doh-halle/ntarikoon-park/internal/handlers"
 	"github.com/doh-halle/ntarikoon-park/internal/helpers"
 	"github.com/doh-halle/ntarikoon-park/internal/models"
@@ -26,10 +27,11 @@ var errorLog *log.Logger
 
 //Main is the main application function
 func main() {
-	err := run()
+	db, err := run()
 	if err != nil {
 		log.Fatal(err)
 	}
+	defer db.SQL.Close()
 
 	fmt.Println(fmt.Printf("Starting Ntarikon Park Web Application on port %s", portNumber))
 	//_ = http.ListenAndServe(portNumber, nil)
@@ -43,7 +45,7 @@ func main() {
 	log.Fatal(err)
 }
 
-func run() error {
+func run() (*driver.DB, error) {
 	// what I am going to put in the session
 	gob.Register(models.Reservation{})
 
@@ -64,19 +66,27 @@ func run() error {
 
 	app.Session = session
 
+	//Connect to Database
+	log.Println("connecting to np database...")
+	db, err := driver.ConnectSQL("host=localhost port=5432 dbname=ntarikoon_park user=hallecraft password=manager123")
+	if err != nil {
+		log.Fatal("cannot connect to np database...")
+	}
+	log.Println("Connected to np database...")
+
 	tc, err := render.CreateTemplateCache()
 	if err != nil {
 		log.Fatal("Cannot create template Cache")
-		return err
+		return nil, err
 	}
 
 	app.TemplateCache = tc
 	app.UseCache = false
 
-	repo := handlers.NewRepo(&app)
+	repo := handlers.NewRepo(&app, db)
 	handlers.NewHandlers(repo)
 	render.NewTemplates(&app)
 	helpers.NewHelpers(&app)
 
-	return nil
+	return db, nil
 }

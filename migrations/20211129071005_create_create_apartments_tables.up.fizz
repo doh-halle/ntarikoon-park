@@ -1,0 +1,4 @@
+create_table("apartments") {
+  t.Column("id", "integer", {primary: true})
+  t.Column("apartment_name", "string", {"default": ""})
+}

@@ -1,0 +1,3 @@
+drop_foreign_key("apartment_restrictions", "apartment_restrictions_apartments_id_fk", {})
+drop_foreign_key("apartment_restrictions", "apartment_restrictions_restrictions_id_fk", {})
+

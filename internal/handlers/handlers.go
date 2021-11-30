@@ -7,10 +7,13 @@ import (
 	"net/http"
 
 	"github.com/doh-halle/ntarikoon-park/internal/config"
+	"github.com/doh-halle/ntarikoon-park/internal/driver"
 	"github.com/doh-halle/ntarikoon-park/internal/forms"
 	"github.com/doh-halle/ntarikoon-park/internal/helpers"
 	"github.com/doh-halle/ntarikoon-park/internal/models"
 	"github.com/doh-halle/ntarikoon-park/internal/render"
+	"github.com/doh-halle/ntarikoon-park/internal/repository"
+	"github.com/doh-halle/ntarikoon-park/internal/repository/dbrepo"
 )
 
 //Repo is the repository used by the handlers
@@ -19,12 +22,14 @@ var Repo *Repository
 //Repository is the repository type
 type Repository struct {
 	App *config.AppConfig
+	DB  repository.DatabaseRepo
 }
 
 //NewRepo creates a new repository
-func NewRepo(a *config.AppConfig) *Repository {
+func NewRepo(a *config.AppConfig, db *driver.DB) *Repository {
 	return &Repository{
 		App: a,
+		DB:  dbrepo.NewPostgresRepo(db.SQL, a),
 	}
 }
 
