@@ -5,6 +5,8 @@ import (
 	"errors"
 	"fmt"
 	"net/http"
+	"strconv"
+	"time"
 
 	"github.com/doh-halle/ntarikoon-park/internal/config"
 	"github.com/doh-halle/ntarikoon-park/internal/driver"
@@ -40,14 +42,14 @@ func NewHandlers(r *Repository) {
 
 //Home is the home page handler
 func (m *Repository) Home(w http.ResponseWriter, r *http.Request) {
-	render.RenderTemplate(w, r, "home.page.tmpl", &models.TemplateData{})
+	render.Template(w, r, "home.page.tmpl", &models.TemplateData{})
 }
 
 //About is the about page handler
 func (m *Repository) About(w http.ResponseWriter, r *http.Request) {
 
 	// send the data to the template
-	render.RenderTemplate(w, r, "about.page.tmpl", &models.TemplateData{})
+	render.Template(w, r, "about.page.tmpl", &models.TemplateData{})
 
 }
 
@@ -57,7 +59,7 @@ func (m *Repository) Reservation(w http.ResponseWriter, r *http.Request) {
 	data := make(map[string]interface{})
 	data["reservation"] = emptyReservation
 
-	render.RenderTemplate(w, r, "make-reservation.page.tmpl", &models.TemplateData{
+	render.Template(w, r, "make-reservation.page.tmpl", &models.TemplateData{
 		Form: forms.New(nil),
 		Data: data,
 	})
@@ -66,7 +68,30 @@ func (m *Repository) Reservation(w http.ResponseWriter, r *http.Request) {
 //PostReservation handles the posting of a reservation form
 func (m *Repository) PostReservation(w http.ResponseWriter, r *http.Request) {
 	err := r.ParseForm()
-	err = errors.New("this is an error message")
+	err = errors.New("this is a postreservation error message")
+	if err != nil {
+		helpers.ServerError(w, err)
+		return
+	}
+
+	sd := r.Form.Get("start_date")
+	ed := r.Form.Get("end_date")
+
+	// 2021-01-01 -- 01/02 03:04:05pm '06 -700
+
+	layout := "01-02-2006"
+	startDate, err := time.Parse(layout, sd)
+	if err != nil {
+		helpers.ServerError(w, err)
+		return
+	}
+	endDate, err := time.Parse(layout, ed)
+	if err != nil {
+		helpers.ServerError(w, err)
+		return
+	}
+
+	apartmentID, err := strconv.Atoi(r.Form.Get("apartment_id"))
 	if err != nil {
 		helpers.ServerError(w, err)
 		return
@@ -77,6 +102,9 @@ func (m *Repository) PostReservation(w http.ResponseWriter, r *http.Request) {
 		LastName:    r.Form.Get("last_name"),
 		Email:       r.Form.Get("email"),
 		PhoneNumber: r.Form.Get("phone_number"),
+		StartDate:   startDate,
+		EndDate:     endDate,
+		ApartmentID: apartmentID,
 	}
 
 	form := forms.New(r.PostForm)
@@ -90,10 +118,30 @@ func (m *Repository) PostReservation(w http.ResponseWriter, r *http.Request) {
 		data := make(map[string]interface{})
 		data["reservation"] = reservation
 
-		render.RenderTemplate(w, r, "make-reservation.page.tmpl", &models.TemplateData{
+		render.Template(w, r, "make-reservation.page.tmpl", &models.TemplateData{
 			Form: form,
 			Data: data,
 		})
+		return
+	}
+
+	newReservationID, err := m.DB.InsertReservation(reservation)
+	if err != nil {
+		helpers.ServerError(w, err)
+		return
+	}
+
+	restriction := models.ApartmentRestriction{
+		StartDate:     startDate,
+		EndDate:       endDate,
+		ApartmentID:   apartmentID,
+		ReservationID: newReservationID,
+		RestrictionID: 1,
+	}
+
+	err = m.DB.InsertApartmentRestriction(restriction)
+	if err != nil {
+		helpers.ServerError(w, err)
 		return
 	}
 
@@ -104,12 +152,12 @@ func (m *Repository) PostReservation(w http.ResponseWriter, r *http.Request) {
 
 //Contact renders the contact page
 func (m *Repository) Contact(w http.ResponseWriter, r *http.Request) {
-	render.RenderTemplate(w, r, "contact.page.tmpl", &models.TemplateData{})
+	render.Template(w, r, "contact.page.tmpl", &models.TemplateData{})
 }
 
 //Availability renders the search availability page and displays the form
 func (m *Repository) Availability(w http.ResponseWriter, r *http.Request) {
-	render.RenderTemplate(w, r, "search-availability.page.tmpl", &models.TemplateData{})
+	render.Template(w, r, "search-availability.page.tmpl", &models.TemplateData{})
 }
 
 //Post-Availability renders the search availability page and displays the form
@@ -143,27 +191,27 @@ func (m *Repository) AvailabilityJSON(w http.ResponseWriter, r *http.Request) {
 
 //Anufor renders the anufor embassy page
 func (m *Repository) Anufor(w http.ResponseWriter, r *http.Request) {
-	render.RenderTemplate(w, r, "anufor-embassy.page.tmpl", &models.TemplateData{})
+	render.Template(w, r, "anufor-embassy.page.tmpl", &models.TemplateData{})
 }
 
 //Mulang renders the mulang quarters page
 func (m *Repository) Mulang(w http.ResponseWriter, r *http.Request) {
-	render.RenderTemplate(w, r, "mulang-quarters.page.tmpl", &models.TemplateData{})
+	render.Template(w, r, "mulang-quarters.page.tmpl", &models.TemplateData{})
 }
 
 //Tawah renders the tawah house page
 func (m *Repository) Tawah(w http.ResponseWriter, r *http.Request) {
-	render.RenderTemplate(w, r, "tawah-house.page.tmpl", &models.TemplateData{})
+	render.Template(w, r, "tawah-house.page.tmpl", &models.TemplateData{})
 }
 
 //Anyere renders the anyere john suite page
 func (m *Repository) Anyere(w http.ResponseWriter, r *http.Request) {
-	render.RenderTemplate(w, r, "anyere-john-suite.page.tmpl", &models.TemplateData{})
+	render.Template(w, r, "anyere-john-suite.page.tmpl", &models.TemplateData{})
 }
 
 //Ayafor renders the ayafor residence page
 func (m *Repository) Ayafor(w http.ResponseWriter, r *http.Request) {
-	render.RenderTemplate(w, r, "ayafor-residence.page.tmpl", &models.TemplateData{})
+	render.Template(w, r, "ayafor-residence.page.tmpl", &models.TemplateData{})
 }
 
 func (m *Repository) ReservationSummary(w http.ResponseWriter, r *http.Request) {
@@ -179,7 +227,7 @@ func (m *Repository) ReservationSummary(w http.ResponseWriter, r *http.Request) 
 
 	data := make(map[string]interface{})
 	data["reservation"] = reservation
-	render.RenderTemplate(w, r, "reservation-summary.page.tmpl", &models.TemplateData{
+	render.Template(w, r, "reservation-summary.page.tmpl", &models.TemplateData{
 		Data: data,
 	})
 }
