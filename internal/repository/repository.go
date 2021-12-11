@@ -1,10 +1,21 @@
 package repository
 
-import "github.com/doh-halle/ntarikoon-park/internal/models"
+import (
+	"time"
+
+	"github.com/doh-halle/ntarikoon-park/internal/models"
+)
 
 type DatabaseRepo interface {
 	AllUsers() bool
 
 	InsertReservation(res models.Reservation) (int, error)
 	InsertApartmentRestriction(r models.ApartmentRestriction) error
+	SearchAvailabilityByDatesByApartmentID(start, end time.Time, apartmentID int) (bool, error)
+	SearchAvailabilityForAllApartments(start, end time.Time) ([]models.Apartment, error)
+	GetApartmentByID(id int) (models.Apartment, error)
+
+	GetUserByID(id int) (models.User, error)
+	UpdateUser(u models.User) error
+	Authenticate(email, testPassword string) (int, string, error)
 }

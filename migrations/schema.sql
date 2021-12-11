@@ -29,7 +29,7 @@ CREATE TABLE public.apartment_restrictions (
     start_date date NOT NULL,
     end_date date NOT NULL,
     apartment_id integer NOT NULL,
-    reservation_id integer NOT NULL,
+    reservation_id integer,
     restriction_id integer NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL

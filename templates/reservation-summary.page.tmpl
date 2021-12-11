@@ -6,7 +6,7 @@
 
     <div class="row">
         <div class="col">
-            <h1 class="text-center">Reservation SUmmary Page</h1>
+            <h1 class="text-center">Reservation Summary Page</h1>
             <hr>
             <table class="table table-striped">
                 <thead></thead>
@@ -16,12 +16,16 @@
                         <td>{{$res.FirstName}} {{$res.LastName}}</td>
                     </tr>
                     <tr>
+                        <td>Apartment:</td>
+                        <td>{{$res.Apartment.ApartmentName}}</td>
+                    </tr>
+                    <tr>
                         <td>Arrival:</td>
-                        <td></td>
+                        <td>{{index .StringMap "start_date"}}</td>
                     </tr>
                     <tr>
                         <td>Departure:</td>
-                        <td></td>
+                        <td>{{index .StringMap "end_date"}}</td>
                     </tr>
                     <tr>
                         <td>Email:</td>

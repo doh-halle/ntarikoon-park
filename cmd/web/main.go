@@ -33,6 +33,11 @@ func main() {
 	}
 	defer db.SQL.Close()
 
+	defer close(app.MailChan)
+
+	fmt.Println("Starting mail listener...")
+	listenForMail()
+
 	fmt.Println(fmt.Printf("Starting Ntarikon Park Web Application on port %s", portNumber))
 	//_ = http.ListenAndServe(portNumber, nil)
 
@@ -52,6 +57,9 @@ func run() (*driver.DB, error) {
 	gob.Register(models.Apartment{})
 	gob.Register(models.Restriction{})
 	gob.Register(models.ApartmentRestriction{})
+
+	mailChan := make(chan models.MailData)
+	app.MailChan = mailChan
 
 	//Change this to true when in production
 	app.InProduction = false

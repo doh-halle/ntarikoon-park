@@ -44,7 +44,55 @@ document.getElementById("check-availability-button").addEventListener("click", f
     </div>
   </form>
   `
-  attention.custom({msg: html, title: 'Choose Your Dates'});
+  attention.custom({
+    msg: html, 
+    title: 'Choose Your Dates',
+
+    willOpen: () => {
+          const elem = document.getElementById('reservation-dates-modal');
+          const rp = new DateRangePicker(elem, {
+            format: 'dd-mm-yyyy',
+            showOnFocus: false,
+            minDate: new Date(),
+          })
+      },
+
+    callback: function(result) {
+      console.log("called...");
+
+      let form = document.getElementById("check-availability-form");
+      let formData = new FormData(form);
+      formData.append("csrf_token", "{{.CSRFToken}}");
+      formData.append("apartment_id", "2");
+
+      fetch('/search-availability-json', {
+        method: "post",
+        body: formData,
+      })
+        .then(response => response.json())
+        .then(data => {
+            if (data.ok) {
+                attention.custom({
+                  icon: 'success',
+                  showConfirmButton: false,
+                  msg: '<p>Apartment is Available!</p>'
+                      + '<p><a href="/reserve-apartment?id='
+                      + data.apartment_id
+                      + '&s='
+                      + data.start_date
+                      + '&e='
+                      + data.end_date
+                      + '" class="btn btn-primary">'
+                      + 'Reserve Now!</a></p>',
+                })
+            } else {
+                attention.error({
+                    msg: "Apartment not Available",
+                })
+            }
+        })
+    }
+  });
 })
 </script>
 

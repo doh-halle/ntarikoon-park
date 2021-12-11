@@ -63,10 +63,15 @@
                 <a class="nav-link" href="/contact">Contact</a>
               </li>
             </ul>
-            <form class="d-flex">
-              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-              <button class="btn btn-outline-success" type="submit">Search</button>
-            </form>
+            <ul class="d-flex navbar-nav mb-2 mb-lg-0">
+              <li class="nav-item">
+                {{if eq .IsAuthenticated 1}}
+                    <a class="nav-link" href="/user/logout" tabindex="-1" aria-disabled="true">Logout</a>
+                {{else }}
+                    <a class="nav-link" href="/user/login" tabindex="-1" aria-disabled="true">Login</a>
+                {{end}}
+              </li>
+            </ul>
           </div>
         </div>
       </nav>
@@ -196,14 +201,18 @@ function Prompt() {
 
   async function custom(c) {
     const {
+      icon = "",
       msg = "",
       title = "",
+      showConfirmButton = true,
     } = c;
     const { value: result } = await Swal.fire({
+      icon: icon,
       title: title,
       html: msg,
       focusConfirm: false,
       showCancelButton: true,
+      showConfirmButton: showConfirmButton,
       willOpen: () => {
         if (c.willOpen !== undefined) {
           c.willOpen();
