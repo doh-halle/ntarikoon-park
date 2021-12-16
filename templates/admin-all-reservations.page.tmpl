@@ -20,6 +20,7 @@
                     <th>Apartment</th>
                     <th>Arrival</th>
                     <th>Departure</th>
+                    <th>Processed</th>
                 </tr>
             </thead>
             <tbody>
@@ -35,6 +36,7 @@
                     <td>{{.Apartment.ApartmentName}}</td>
                     <td>{{humanDate .StartDate}}</td>
                     <td>{{humanDate .EndDate}}</td>
+                    <td>{{.Processed}}</td>
                 </tr>
         {{end}}
             </tbody>
