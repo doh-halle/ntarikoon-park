@@ -231,7 +231,7 @@ sup {
 
 a {
   color: #0d6efd;
-  text-decoration: underline;
+  text-decoration: none !important;
 }
 a:hover {
   color: #0a58ca;
@@ -3274,7 +3274,8 @@ textarea.form-control-lg {
 
 .btn-outline-secondary {
   color: #6c757d;
-  border-color: #6c757d;
+  border-color: #6c757d !important;
+  text-decoration: none;
 }
 .btn-outline-secondary:hover {
   color: #fff;
@@ -3469,6 +3470,7 @@ textarea.form-control-lg {
   padding: 0.25rem 0.5rem;
   font-size: 0.875rem;
   border-radius: 0.2rem;
+  background-color: #dde4ec;
 }
 
 .fade {

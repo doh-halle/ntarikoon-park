@@ -101,3 +101,27 @@ func (m *testDBRepo) UpdateProcessedForReservation(id, processed int) error {
 
 	return nil
 }
+
+func (m *testDBRepo) AllApartments() ([]models.Apartment, error) {
+
+	var apartments []models.Apartment
+
+	return apartments, nil
+}
+
+//GetRestrictionsForApartmentByDate returns restrictions for an apartment by date range
+func (m *testDBRepo) GetRestrictionsForApartmentByDate(apartmentID int, start, end time.Time) ([]models.ApartmentRestriction, error) {
+	var restrictions []models.ApartmentRestriction
+	return restrictions, nil
+
+}
+
+//InsertBlockforApartment inserts an apartment restriction
+func (m *testDBRepo) InsertBlockforApartmentByID(id int, startDate time.Time) error {
+	return nil
+}
+
+//DeleteBlockforApartment deletes an apartment restriction
+func (m *testDBRepo) DeleteBlockforApartmentByID(id int) error {
+	return nil
+}

@@ -16,6 +16,8 @@
 
     <form method="post" action="/admin/reservations/{{$src}}/{{$res.ID}}" class="" novalidate>
     <input type="hidden" name="csrf_token" value="{{.CSRFToken}}">
+    <input type="hidden" name="year" value="{{index .StringMap "year"}}">
+    <input type="hidden" name="month" value="{{index .StringMap "month"}}">
    
       <div class="form-group mt-5">
           <label for="first_name">First Name:</label>
@@ -47,17 +49,21 @@
         <input type="text" name="phone_number" id="phone_number" class="form-control {{with .Form.Errors.Get "phone_number" }} is-invalid {{end}}" value="{{$res.PhoneNumber}}" required autocomplete="off">
     </div>
     <hr>
-    <div class="">
-    <div class="float-right">
+    <div class="float-start">
         <input type="submit" class="btn btn-primary" class="form-control" value="Save">
-        <a href="/admin/reservations-{{$src}}" class="btn btn-warning">Cancel</a>
-        <a href="#!" class="btn btn-info" onclick="processRes({{$res.ID}})">Mark as Processed</a>
+        {{if eq $src "cal"}}
+            <a href="#!" onclick="window.history.go(-1)" class="btn btn-warning ms-2">Cancel</a>
+        {{else}}
+        <a href="/admin/reservations-{{$src}}" class="btn btn-warning ms-2">Cancel</a>
+        {{end}}
+        {{if eq $res.Processed 0}}
+        <a href="#!" class="btn btn-info ms-2" onclick="processRes({{$res.ID}})">Mark as Processed</a>
+        {{else}}
+        <button type="button" class="btn btn-secondary ms-2" disabled>Processed</button>
+        {{end}}
+    </div>
+    <div class="float-end">
         <a href="#!" class="btn btn-danger flex-end" onclick="deleteRes({{$res.ID}})">Delete</a>
-    </div>
-    <div class="float-left">
-        
-    </div>
-    <!--<div class="clearfix"></div>-->
     </div>
   </form>
        
@@ -74,7 +80,9 @@
             msg: 'Are you sure you want to mark as processed?',
             callback: function(result) {
                 if (result !== false) {
-                    window.location.href = "/admin/process-reservation/{{$src}}/" + id;
+                    window.location.href = "/admin/process-reservation/{{$src}}/" 
+                    + id
+                    + "/do?y={{index .StringMap "year"}}&m={{index .StringMap "month"}}";
                 }
             
             }
@@ -88,7 +96,9 @@
             msg: 'Are you sure you want to delete?',
             callback: function(result) {
                 if (result !== false) {
-                    window.location.href = "/admin/delete-reservation/{{$src}}/" + id;
+                    window.location.href = "/admin/delete-reservation/{{$src}}/"
+                    + id
+                    + "/do?y={{index .StringMap "year"}}&m={{index .StringMap "month"}}";
                 }
             
             }

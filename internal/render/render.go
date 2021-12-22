@@ -15,11 +15,28 @@ import (
 )
 
 var functions = template.FuncMap{
-	"humanDate": HumanDate,
+	"humanDate":  HumanDate,
+	"formatDate": FormatDate,
+	"iterate":    Iterate,
+	"add":        Add,
 }
 
 var app *config.AppConfig
 var pathToTemplates = "./templates"
+
+func Add(a, b int) int {
+	return a + b
+}
+
+//Iterate returns a slice of ints, starting at 1, going to count
+func Iterate(count int) []int {
+	var i int
+	var items []int
+	for i = 0; i < count; i++ {
+		items = append(items, i)
+	}
+	return items
+}
 
 //NewRenderer sets the config for the template package
 func NewRenderer(a *config.AppConfig) {
@@ -29,6 +46,10 @@ func NewRenderer(a *config.AppConfig) {
 // HumanDate returns time in a human readable format - dd-mm-yyyy
 func HumanDate(t time.Time) string {
 	return t.Format("02-01-2006")
+}
+
+func FormatDate(t time.Time, f string) string {
+	return t.Format(f)
 }
 
 //AddDefaultData adds data to all templates
