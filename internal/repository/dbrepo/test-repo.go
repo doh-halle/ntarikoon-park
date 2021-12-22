@@ -57,7 +57,11 @@ func (m *testDBRepo) UpdateUser(u models.User) error {
 
 //Authenticate authenticates users using email and a password
 func (m *testDBRepo) Authenticate(email, testPassword string) (int, string, error) {
-	return 1, "", nil
+	if email == "bessem@orock.com" {
+		return 1, "", nil
+	}
+	return 0, "", errors.New("authentication test error")
+
 }
 
 //AllReservations returns a slice of all reservations
