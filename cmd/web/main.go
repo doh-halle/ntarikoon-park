@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/gob"
+	"flag"
 	"fmt"
 	"log"
 	"net/http"
@@ -59,11 +60,29 @@ func run() (*driver.DB, error) {
 	gob.Register(models.ApartmentRestriction{})
 	gob.Register(map[string]int{})
 
+	// read flags
+	inProduction := flag.Bool("production", true, "Application is in Production")
+	useCache := flag.Bool("cache", true, "Use template Cache")
+	dbHost := flag.String("dbhost", "localhost", "Database Host")
+	dbName := flag.String("dbname", "", "Database Name")
+	dbUser := flag.String("dbuser", "", "Database User")
+	dbPassword := flag.String("dbpassword", "", "Database Password")
+	dbPort := flag.String("dbport", "5432", "Database Port")
+	dbSSL := flag.String("dbssl", "disable", "Database SSL Settings (disable, prefer, require)")
+
+	flag.Parse()
+
+	if *dbName == "" || *dbUser == "" {
+		fmt.Println("Missing required flags")
+		os.Exit(1)
+	}
+
 	mailChan := make(chan models.MailData)
 	app.MailChan = mailChan
 
 	//Change this to true when in production
-	app.InProduction = false
+	app.InProduction = *inProduction
+	app.UseCache = *useCache
 
 	infoLog = log.New(os.Stdout, "INFO\t", log.Ldate|log.Ltime)
 	app.InfoLog = infoLog
@@ -81,7 +100,8 @@ func run() (*driver.DB, error) {
 
 	//Connect to Database
 	log.Println("connecting to np database...")
-	db, err := driver.ConnectSQL("host=localhost port=5432 dbname=ntarikoon_park user=hallecraft password=manager123")
+	connectionString := fmt.Sprintf("host=%s port=%s dbname=%s user=%s password=%s sslmode=%s", *dbHost, *dbPort, *dbName, *dbUser, *dbPassword, *dbSSL)
+	db, err := driver.ConnectSQL(connectionString)
 	if err != nil {
 		log.Fatal("cannot connect to np database...")
 	}
@@ -94,7 +114,6 @@ func run() (*driver.DB, error) {
 	}
 
 	app.TemplateCache = tc
-	app.UseCache = false
 
 	repo := handlers.NewRepo(&app, db)
 	handlers.NewHandlers(repo)

@@ -1,4 +1,4 @@
 #!/bin/bash
 
 go build -o ntarikoonpark cmd/web/*.go
-./ntarikoonpark
+./ntarikoonpark -dbname=ntarikoon_park -dbuser=hallecraft -dbpassword=manager123

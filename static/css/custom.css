@@ -5,3 +5,16 @@
 .datepicker {
     z-index: 10000;
 }
+
+.npfooter {
+    text-align: center;
+    margin-top: 20px;
+    width: auto;
+    color: rgba(192, 189, 189, 0.781);
+    height: auto;
+    padding-top: 20px;
+}
+
+.tmp-fill {
+    min-height: 86vh;
+}

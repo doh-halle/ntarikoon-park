@@ -5,9 +5,9 @@
 <div class="container">
 
         <div class="row">
-              <div class="col">
+              <div class="col col-lg-9 offset-1">
                   {{$res := index .Data "reservation"}}
-                  <h1 class="text-center">Make Reservation</h1>
+                  <h1 class="text-center mt-5 mb-5">Make Reservation</h1>
                   <p><strong>Reservation Details</strong><br>
                   Apartment: {{$res.Apartment.ApartmentName}}<br>
                   Arrival: {{index .StringMap "start_date"}}<br>
